@@ -6,3 +6,10 @@ RUN curl -sSL https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhs
   && chmod +x mhsendmail \
   && mv mhsendmail /usr/local/bin/mhsendmail
 COPY ./php.ini /usr/local/etc/php/
+
+# 日本語環境を追加
+RUN apt-get update && apt-get install -y locales \
+    && sed -i -e 's/# \(ja_JP.UTF-8\)/\1/' /etc/locale.gen \
+    && locale-gen \
+    && update-locale LANG=ja_JP.UTF-8
+# ここまで
