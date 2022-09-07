@@ -24,6 +24,26 @@ CREATE TABLE event_attendance (
 );
 
 
+DROP TABLE IF EXISTS users;
+CREATE TABLE users (
+  id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+  user_name VARCHAR(10) NOT NULL,
+  mail_address VARCHAR(255) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+DROP TABLE IF EXISTS admin;
+CREATE TABLE admin (
+  id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+  admin_name VARCHAR(10) NOT NULL,
+  mail_address VARCHAR(255) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
 INSERT INTO events SET name='縦モク', start_at='2021/08/01 21:00', end_at='2021/08/01 23:00';
 INSERT INTO events SET name='横モク', start_at='2021/08/02 21:00', end_at='2021/08/02 23:00';
 INSERT INTO events SET name='スペモク', start_at='2021/08/03 20:00', end_at='2021/08/03 22:00';
@@ -46,3 +66,14 @@ INSERT INTO event_attendance SET event_id=1;
 INSERT INTO event_attendance SET event_id=2;
 INSERT INTO event_attendance SET event_id=2;
 INSERT INTO event_attendance SET event_id=3;
+
+
+INSERT INTO admin
+  (admin_name, mail_address, password)
+VALUES 
+  ('小谷さん', 'kotani@gmail.com', 'kotani');
+
+INSERT INTO users
+  (user_name, mail_address, password)
+  VALUES
+  ('あやか', 'pome@gmail.com', 'ayaka');
