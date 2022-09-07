@@ -93,6 +93,6 @@ VALUES
 INSERT INTO users
   (user_name, mail_address, password)
   VALUES
-  ('あやか', 'pome@gmail.com', 'ayaka'),
-  ('みのり', 'minori@gmail.com', 'minori'),
-  ('まりあ', 'maria@gmail.com', 'maria');
+  ('あやか', 'pome@gmail.com', sha1('ayaka')),
+  ('みのり', 'minori@gmail.com', sha1('minori')),
+  ('まりあ', 'maria@gmail.com', sha1('maria'));
