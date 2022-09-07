@@ -1,13 +1,18 @@
 <?php
 require('dbconnect.php');
 
-$stmt = $db->query('SELECT events.id, events.name, events.start_at, events.end_at, count(event_attendance.id) AS total_participants FROM events LEFT JOIN event_attendance ON events.id = event_attendance.event_id GROUP BY events.id');
+$today = date("Y-m-d H:i:s");
+$stmt = $db->query('SELECT events.id, events.name, events.start_at, events.end_at, count(event_attendance.id) AS total_participants FROM events LEFT JOIN event_attendance ON events.id = event_attendance.event_id WHERE DATE_FORMAT(start_at, "%Y-%m-%d") => DATE_FORMAT(now(), "%Y-%m-%d") GROUP BY events.id');
 $events = $stmt->fetchAll();
+
+
 
 function get_day_of_week ($w) {
   $day_of_week_list = ['日', '月', '火', '水', '木', '金', '土'];
   return $day_of_week_list["$w"];
 }
+
+print_r($events);
 ?>
 
 <!DOCTYPE html>
