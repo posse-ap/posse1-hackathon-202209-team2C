@@ -5,7 +5,6 @@
 
 
 require('../dbconnect.php');
-// ログインしていないorログインから1日たっていればログイン画面へ
 session_start();
 if (isset($_SESSION['login']) && $_SESSION['time'] + 60 * 60 * 24 > time()) {
   // SESSIONにloginカラムが設定されていて、SESSIONに登録されている時間から1日以内なら
@@ -16,7 +15,6 @@ if (isset($_SESSION['login']) && $_SESSION['time'] + 60 * 60 * 24 > time()) {
   header('Location: http://' . $_SERVER['HTTP_HOST'] . '/auth/login/index.php');
   exit();
 }
-
 
 
 if (isset(
