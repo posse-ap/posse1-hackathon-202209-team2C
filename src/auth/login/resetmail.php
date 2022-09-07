@@ -85,7 +85,7 @@ $honbun .= "http://localhost/auth/login/resetting.php" . "\n\n";
 */
 $mail_to  = $email;
 $returnMail  = $email;
-$mail_subject  = "パスポート再設定 | POSSE";
+$mail_subject  = "パスワード再設定 | POSSE";
 $mail_body  = $honbun . "\n\n";
 $mail_header = "from: ayaka1712pome@gmail.com\r\n"
              . "Return-Path: ayaka1712pome@gmail.com\r\n"
