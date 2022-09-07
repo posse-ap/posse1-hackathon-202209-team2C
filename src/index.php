@@ -8,6 +8,19 @@ function get_day_of_week ($w) {
   $day_of_week_list = ['日', '月', '火', '水', '木', '金', '土'];
   return $day_of_week_list["$w"];
 }
+
+
+// 配列を時間順に並び替える
+// array_column()の引数に、対象のキー名を指定し、開催日が近いもの順（過去→未来）でソート
+array_multisort( array_map( "strtotime", array_column( $events, "start_at" ) ), SORT_ASC, $events ) ;
+
+//以下で確認
+// foreach($events as $event){
+//   echo "<pre>";
+//   echo $event["name"];
+//   echo $event["start_at"];
+//   echo "</pre>";
+//  }
 ?>
 
 <!DOCTYPE html>
