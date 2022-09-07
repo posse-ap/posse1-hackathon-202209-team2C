@@ -1,6 +1,15 @@
 <?php
 require('dbconnect.php');
 session_start();
+if (isset($_SESSION['login']) && $_SESSION['time'] + 60 * 60 * 24 > time()) {
+  // SESSIONにloginカラムが設定されていて、SESSIONに登録されている時間から1日以内なら
+  $_SESSION['time'] = time();
+  // SESSIONの時間を現在時刻に更新
+} else {
+  // そうじゃないならログイン画面に飛ぶ
+  header('Location: http://' . $_SERVER['HTTP_HOST'] . '/auth/login/index.php');
+  exit();
+}
 
 $stmt = $db->query('SELECT events.id, events.name, events.start_at, events.end_at, count(event_attendance.id) AS total_participants FROM events LEFT JOIN event_attendance ON events.id = event_attendance.event_id WHERE DATE_FORMAT(start_at, "%Y-%m-%d %H:%i:%s") >= DATE_FORMAT(now(), "%Y-%m-%d %H:%i:%s") GROUP BY events.id');
 $events = $stmt->fetchAll();
@@ -22,10 +31,9 @@ array_multisort( array_map( "strtotime", array_column( $events, "start_at" ) ), 
 //   echo "</pre>";
 //  }
 
-$user_id = $_SESSION['user_id'];
-if(isset($_POST['user_name'])) {
-  
-}
+
+
+
 
 ?>
 
@@ -71,7 +79,6 @@ if(isset($_POST['user_name'])) {
         <div class="flex justify-between items-center mb-3">
           <h2 class="text-sm font-bold">一覧</h2>
         </div>
-
         <?php foreach ($events as $event) : ?>
           <?php
           $start_date = strtotime($event['start_at']);

@@ -5,6 +5,17 @@
 
 
 require('../dbconnect.php');
+session_start();
+if (isset($_SESSION['login']) && $_SESSION['time'] + 60 * 60 * 24 > time()) {
+  // SESSIONにloginカラムが設定されていて、SESSIONに登録されている時間から1日以内なら
+  $_SESSION['time'] = time();
+  // SESSIONの時間を現在時刻に更新
+} else {
+  // そうじゃないならログイン画面に飛ぶ
+  header('Location: http://' . $_SERVER['HTTP_HOST'] . '/auth/login/index.php');
+  exit();
+}
+
 
 if (isset(
   // これらが入力されていたら
