@@ -13,6 +13,11 @@ if (isset($_SESSION['login']) && $_SESSION['time'] + 60 * 60 * 24 > time()) {
 
 $stmt = $db->query('SELECT events.id, events.name, events.start_at, events.end_at, count(event_attendance.id) AS total_participants FROM events LEFT JOIN event_attendance ON events.id = event_attendance.event_id WHERE DATE_FORMAT(start_at, "%Y-%m-%d %H:%i:%s") >= DATE_FORMAT(now(), "%Y-%m-%d %H:%i:%s") GROUP BY events.id');
 $events = $stmt->fetchAll();
+$stmt = $db->prepare('SELECT count(event_attendance.id) AS total_participants FROM events LEFT JOIN event_attendance ON events.id = event_attendance.event_id WHERE DATE_FORMAT(start_at, "%Y-%m-%d %H:%i:%s") >= DATE_FORMAT(now(), "%Y-%m-%d %H:%i:%s") and events.id = ? AND attendance = true GROUP BY events.id');
+$stmt = $db->query('SELECT count(event_attendance.id) AS total_participants FROM events LEFT JOIN event_attendance ON events.id = event_attendance.event_id WHERE DATE_FORMAT(start_at, "%Y-%m-%d %H:%i:%s") >= DATE_FORMAT(now(), "%Y-%m-%d %H:%i:%s") and attendance = true GROUP BY events.id');
+$stmt->execute();
+$total_participants = $stmt->fetchAll();
+
 
 function get_day_of_week ($w) {
   $day_of_week_list = ['日', '月', '火', '水', '木', '金', '土'];
@@ -79,7 +84,7 @@ array_multisort( array_map( "strtotime", array_column( $events, "start_at" ) ), 
         <div class="flex justify-between items-center mb-3">
           <h2 class="text-sm font-bold">一覧</h2>
         </div>
-        <?php foreach ($events as $event) : ?>
+        <?php foreach ($events as $index => $event) : ?>
           <?php
           $start_date = strtotime($event['start_at']);
           $end_date = strtotime($event['end_at']);
@@ -110,7 +115,7 @@ array_multisort( array_map( "strtotime", array_column( $events, "start_at" ) ), 
                   -->
                 <?php endif; ?>
               </div>
-              <p class="text-sm"><span class="text-xl"><?php echo $event['total_participants']; ?></span>人参加 ></p>
+              <p class="text-sm"><span class="text-xl"><?php echo $total_participants[$index]['total_participants']; ?></span>人参加 ></p>
             </div>
           </div>
         <?php endforeach; ?>
