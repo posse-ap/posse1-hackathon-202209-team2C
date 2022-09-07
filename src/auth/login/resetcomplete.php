@@ -49,7 +49,7 @@ if (!$user) {
 
 if ($password === $password_confirmation) {
   // テーブルに保存するパスワードをハッシュ化
-  $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+  $hashedPassword = sha1($password);
 
   $query = "UPDATE users SET password='$hashedPassword' WHERE mail_address = ? '";
   $stmt = $db->prepare($sql);
