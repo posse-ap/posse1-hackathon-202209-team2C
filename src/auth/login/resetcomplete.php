@@ -101,7 +101,7 @@ if ($password === $password_confirmation) {
       <h1 class="text-md font-bold mb-5">リセット完了</h1>
 
       <p class="w-full p-4 text-sm mb-3 bg-white">パスワードリセット再設定が完了しました。</p>
-      <a href="./index.php" class="cursor-pointer w-full p-3 text-md text-white bg-blue-400 rounded-3xl bg-gradient-to-r from-blue-600 to-blue-300" >ログイン</a>
+      <a href="./index.php" class="cursor-pointer w-full p-3 text-md text-white bg-blue-400 rounded-3xl bg-gradient-to-r from-blue-600 to-blue-300 inline-block center" >ログイン</a>
 
     </div>
   </main>
