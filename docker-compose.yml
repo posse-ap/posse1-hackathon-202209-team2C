@@ -36,5 +36,7 @@ services:
       - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
   mailhog:
     image: mailhog/mailhog
+    volumes:
+          - ./mailhog:/tmp
     ports:
       - "8025:8025"
