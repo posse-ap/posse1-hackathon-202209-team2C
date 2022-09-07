@@ -6,13 +6,13 @@ require('../../dbconnect.php');
 //エスケープ処理やデータをチェックする関数を記述したファイルの読み込み
 require './function.php'; 
 
+
 //お問い合わせ日時を日本時間に
 date_default_timezone_set('Asia/Tokyo'); 
 
 //POSTされたデータをチェック
 $_POST = checkInput( $_POST );
 
-print_r($_POST);
 
 //固定トークンを確認（CSRF対策）
 if ( isset( $_POST[ 'ticket' ], $_SESSION[ 'ticket' ] ) ) {
@@ -38,7 +38,21 @@ if ( isset( $_POST[ 'ticket' ], $_SESSION[ 'ticket' ] ) ) {
  
 //セッション変数の値を代入
 $email = $_POST[ 'email' ];
-print_r($email);
+
+// emailがusersテーブルに登録済みか確認
+$sql = 'SELECT * FROM users WHERE mail_address= ? ';
+$stmt = $db->prepare($sql);
+$stmt->bindValue(1,$email);
+$stmt->execute();
+$user = $stmt->fetch(\PDO::FETCH_OBJ);
+
+
+// 未登録のメールアドレスはログイン画面に遷移
+if (!$user) {
+    require_once './index.php';
+    exit();
+}
+
 
 /* メールの作成 */
 
@@ -109,7 +123,7 @@ $mailsousin  = mb_send_mail($mail_to, $mail_subject, $mail_body, $mail_header);
     <div class="w-full mx-auto py-10 px-5">
       <h1 class="text-md font-bold mb-5">リセットメール送信完了</h1>
 
-      <p class="w-full p-4 text-sm mb-3">パスワードリセットに必要なメールを送信しました。メール記載のリンクをクリックし、パスワードの再設定をしてください。</p>
+      <p class="w-full p-4 text-sm mb-3 bg-white">パスワードリセットに必要なメールを送信しました。メール記載のリンクをクリックし、パスワードの再設定をしてください。</p>
 
     </div>
   </main>

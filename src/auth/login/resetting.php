@@ -74,10 +74,11 @@ $ticket = $_SESSION['ticket'];
         </ul>
       <?php } ?>
 
-      <form action="./resetmail.php" method="POST">
-      <input type="password" placeholder="新しいパスワード" class="w-full p-4 text-sm mb-3">
-      <input type="password" placeholder="新しいパスワード(再確認)" class="w-full p-4 text-sm mb-3">
-      <input type="submit" value="ログイン" class="cursor-pointer w-full p-3 text-md text-white bg-blue-400 rounded-3xl bg-gradient-to-r from-blue-600 to-blue-300">
+      <form action="./resetcomplete.php" method="POST">
+      <input type="email" placeholder="メールアドレス" class="w-full p-4 text-sm mb-3" name="email">
+      <input type="password" placeholder="新しいパスワード" class="w-full p-4 text-sm mb-3" name="password">
+      <input type="password" placeholder="新しいパスワード(再確認)" class="w-full p-4 text-sm mb-3" name="password_confirmation">
+      <input type="submit" value="変更" class="cursor-pointer w-full p-3 text-md text-white bg-blue-400 rounded-3xl bg-gradient-to-r from-blue-600 to-blue-300">
         <!--確認ページへトークンをPOSTする、隠しフィールド「ticket」-->
         <input type="hidden" name="ticket" value="<?php echo $ticket; ?>">
       </form>
