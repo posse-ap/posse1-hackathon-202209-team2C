@@ -93,10 +93,6 @@ if (!empty($_POST)) {
       <form action="index.php" method="POST">
         <input name="email" type="email" placeholder="メールアドレス" class="w-full p-4 text-sm mb-3">
         <input name="password" type="password" placeholder="パスワード" class="w-full p-4 text-sm mb-3">
-        <label class="inline-block mb-6">
-          <input type="checkbox" checked>
-          <span class="text-sm">ログイン状態を保持する</span>
-        </label>
         <input name="login" type="submit" value="ログイン" class="cursor-pointer w-full p-3 text-md text-white bg-blue-400 rounded-3xl bg-gradient-to-r from-blue-600 to-blue-300">
       </form>
       <p> <?php  echo $error_msg; ?></p>
