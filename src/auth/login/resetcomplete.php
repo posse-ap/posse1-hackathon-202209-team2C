@@ -32,12 +32,7 @@ if ( isset( $_POST[ 'ticket' ], $_SESSION[ 'ticket' ] ) ) {
 $post = checkInput( $_POST );
 $email = $post['email'];
 $password = $post['password'];
-// print_r($post);
-// echo $post['email'];
-// echo $post['password'];
-
-// テーブルに保存するパスワードをハッシュ化
-$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+$password_confirmation = $post['password_confirmation'];
 
 // emailがusersテーブルに登録済みか確認
 $sql = 'SELECT * FROM users WHERE mail_address= ? ';
@@ -46,26 +41,36 @@ $stmt->bindValue(1,$email);
 $stmt->execute();
 $user = $stmt->fetch(\PDO::FETCH_OBJ);
 
-// print_r($user);
-
 // 未登録のメールアドレスはログイン画面に遷移
 if (!$user) {
     require_once './index.php';
     exit();
 }
 
-$query = "UPDATE users SET password='$hashedPassword' WHERE mail_address = ? '";
-$stmt = $db->prepare($sql);
-$stmt->bindValue(1,$email);
-$stmt->execute();
-$result = $stmt->fetchAll();
+if ($password === $password_confirmation) {
+  // テーブルに保存するパスワードをハッシュ化
+  $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-//以下で確認
-// if (isset($result)) {
-//   echo $return  = "パスワードを更新しました";
-// } else {
-//   echo $return  = "パスワードを更新できませんでした";
-// }
+  $query = "UPDATE users SET password='$hashedPassword' WHERE mail_address = ? '";
+  $stmt = $db->prepare($sql);
+  $stmt->bindValue(1,$email);
+  $stmt->execute();
+  $result = $stmt->fetchAll();
+  
+  //以下で確認
+  // if (isset($result)) {
+  //   echo $return  = "パスワードを更新しました";
+  // } else {
+  //   echo $return  = "パスワードを更新できませんでした";
+  // }
+
+}else {
+  echo "パスワードが一致しておりません。";
+  echo '<a href="./resetting.php">戻る</a>';
+  exit;
+}
+
+
 
 
 ?>
