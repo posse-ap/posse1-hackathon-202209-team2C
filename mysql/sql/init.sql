@@ -19,6 +19,7 @@ CREATE TABLE event_attendance (
   id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
   event_id INT NOT NULL,
   user_id INT,
+  attendance BOOLEAN,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   deleted_at DATETIME
@@ -70,20 +71,17 @@ INSERT INTO events SET name='スぺモク', contents='もくもくします。',
 INSERT INTO events SET name='ハッカソン', contents='お題に沿ったものをチーム開発します。', start_at='2022/10/20 09:00', end_at='2022/10/20 22:00';
 INSERT INTO events SET name='遊び', contents='リアイベ！遊びます。', start_at='2022/10/10 09:00', end_at='2022/10/10 22:00';
 
-INSERT INTO event_attendance SET event_id=1, user_id=1;
-INSERT INTO event_attendance SET event_id=1, user_id=2;
-INSERT INTO event_attendance SET event_id=1, user_id=3;
-INSERT INTO event_attendance SET event_id=2, user_id=1;
-INSERT INTO event_attendance SET event_id=2, user_id=1;
-INSERT INTO event_attendance SET event_id=3, user_id=2;
-INSERT INTO event_attendance SET event_id=17, user_id=1;
-INSERT INTO event_attendance SET event_id=18, user_id=1;
-INSERT INTO event_attendance SET event_id=19, user_id=2;
-INSERT INTO event_attendance SET event_id=20, user_id=3;
-INSERT INTO event_attendance SET event_id=21, user_id=2;
-INSERT INTO event_attendance SET event_id=22, user_id=3;
-INSERT INTO event_attendance SET event_id=23, user_id=2;
-INSERT INTO event_attendance SET event_id=24, user_id=3;
+INSERT INTO event_attendance
+  (event_id, user_id, attendance)
+  VALUES
+  (17, 1, true),
+  (17, 2, false),
+  (19, 3, true),
+  (20, 2, false),
+  (21, 1, true),
+  (22, 1, true),
+  (23, 2, true),
+  (24, 3, false);
 
 
 INSERT INTO admin

@@ -5,9 +5,12 @@ header('Content-Type: application/json; charset=UTF-8');
 if (isset($_GET['eventId'])) {
   $eventId = htmlspecialchars($_GET['eventId']);
   try {
-    $stmt = $db->prepare('SELECT events.id, events.name, events.start_at, events.end_at, count(event_attendance.id) AS total_participants FROM events LEFT JOIN event_attendance ON events.id = event_attendance.event_id WHERE events.id = ? GROUP BY events.id');
+    $stmt = $db->prepare('SELECT events.id, events.name, events.start_at, events.end_at, count(event_attendance.id) FROM events LEFT JOIN event_attendance ON events.id = event_attendance.event_id WHERE events.id = ? GROUP BY events.id');
     $stmt->execute(array($eventId));
     $event = $stmt->fetch();
+    $stmt = $db->prepare('SELECT count(event_attendance.id) AS total_participants FROM events LEFT JOIN event_attendance ON events.id = event_attendance.event_id WHERE DATE_FORMAT(start_at, "%Y-%m-%d %H:%i:%s") >= DATE_FORMAT(now(), "%Y-%m-%d %H:%i:%s") and events.id = ? AND attendance = true GROUP BY events.id');
+    $stmt->execute(array($eventId));
+    $total_participants = $stmt->fetch();
     
     $start_date = strtotime($event['start_at']);
     $end_date = strtotime($event['end_at']);
@@ -25,7 +28,7 @@ if (isset($_GET['eventId'])) {
       'day_of_week' => get_day_of_week(date("w", $start_date)),
       'start_at' => date("H:i", $start_date),
       'end_at' => date("H:i", $end_date),
-      'total_participants' => $event['total_participants'],
+      'total_participants' => $total_participants['total_participants'],
       'message' => $eventMessage,
       'status' => $status,
       'deadline' => date("m月d日", strtotime('-3 day', $end_date)),
