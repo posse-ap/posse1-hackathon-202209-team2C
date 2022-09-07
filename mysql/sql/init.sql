@@ -59,13 +59,30 @@ INSERT INTO events SET name='スペモク', start_at='2021/08/24 20:00', end_at=
 INSERT INTO events SET name='遊び', start_at='2021/09/22 18:00', end_at='2021/09/22 22:00';
 INSERT INTO events SET name='ハッカソン', start_at='2021/09/03 10:00', end_at='2021/09/03 22:00';
 INSERT INTO events SET name='遊び', start_at='2021/09/06 18:00', end_at='2021/09/06 22:00';
+INSERT INTO events SET name='遊び', start_at='2021/10/06 18:00', end_at='2021/10/06 22:00';
+INSERT INTO events SET name='遊び', start_at='2022/09/07 09:00', end_at='2022/09/07 22:00';
+INSERT INTO events SET name='縦モク', start_at='2022/10/07 09:00', end_at='2022/10/07 22:00';
+INSERT INTO events SET name='縦モク', start_at='2022/10/08 09:00', end_at='2022/10/08 22:00';
+INSERT INTO events SET name='縦モク', start_at='2022/10/10 09:00', end_at='2022/10/10 22:00';
+INSERT INTO events SET name='横モク', start_at='2022/10/06 09:00', end_at='2022/10/06 22:00';
+INSERT INTO events SET name='スぺモク', start_at='2022/10/09 09:00', end_at='2022/10/09 22:00';
+INSERT INTO events SET name='ハッカソン', start_at='2022/10/20 09:00', end_at='2022/10/20 22:00';
+INSERT INTO events SET name='遊び', start_at='2022/10/10 09:00', end_at='2022/10/10 22:00';
 
-INSERT INTO event_attendance SET event_id=1;
-INSERT INTO event_attendance SET event_id=1;
-INSERT INTO event_attendance SET event_id=1;
-INSERT INTO event_attendance SET event_id=2;
-INSERT INTO event_attendance SET event_id=2;
-INSERT INTO event_attendance SET event_id=3;
+INSERT INTO event_attendance SET event_id=1, user_id=1;
+INSERT INTO event_attendance SET event_id=1, user_id=2;
+INSERT INTO event_attendance SET event_id=1, user_id=3;
+INSERT INTO event_attendance SET event_id=2, user_id=1;
+INSERT INTO event_attendance SET event_id=2, user_id=1;
+INSERT INTO event_attendance SET event_id=3, user_id=2;
+INSERT INTO event_attendance SET event_id=17, user_id=1;
+INSERT INTO event_attendance SET event_id=18, user_id=1;
+INSERT INTO event_attendance SET event_id=19, user_id=2;
+INSERT INTO event_attendance SET event_id=20, user_id=3;
+INSERT INTO event_attendance SET event_id=21, user_id=2;
+INSERT INTO event_attendance SET event_id=22, user_id=3;
+INSERT INTO event_attendance SET event_id=23, user_id=2;
+INSERT INTO event_attendance SET event_id=24, user_id=3;
 
 
 INSERT INTO admin
@@ -76,4 +93,6 @@ VALUES
 INSERT INTO users
   (user_name, mail_address, password)
   VALUES
-  ('あやか', 'pome@gmail.com', 'ayaka');
+  ('あやか', 'pome@gmail.com', 'ayaka'),
+  ('みのり', 'minori@gmail.com', 'minori'),
+  ('まりあ', 'maria@gmail.com', 'maria');
