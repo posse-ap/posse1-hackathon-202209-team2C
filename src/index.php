@@ -30,6 +30,11 @@ array_multisort( array_map( "strtotime", array_column( $events, "start_at" ) ), 
 //   echo $event["start_at"];
 //   echo "</pre>";
 //  }
+
+
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -74,7 +79,6 @@ array_multisort( array_map( "strtotime", array_column( $events, "start_at" ) ), 
         <div class="flex justify-between items-center mb-3">
           <h2 class="text-sm font-bold">一覧</h2>
         </div>
-
         <?php foreach ($events as $event) : ?>
           <?php
           $start_date = strtotime($event['start_at']);
