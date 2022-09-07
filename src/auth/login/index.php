@@ -1,30 +1,65 @@
 <?php
-session_start();
-$mail = $_POST['mail'];
-$dsn = "mysql:host=localhost; dbname=xxx; charset=utf8";
-$username = "xxx";
-$password = "xxx";
-try {
-    $dbh = new PDO($dsn, $username, $password);
-} catch (PDOException $e) {
-    $msg = $e->getMessage();
-}
+require('../../dbconnect.php');
 
-$sql = "SELECT * FROM users WHERE mail = :mail";
-$stmt->bindValue(':mail', $mail);
-$stmt->execute();
-$member = $stmt->fetch();
-//指定したハッシュがパスワードにマッチしているかチェック
-if (password_verify($_POST['pass'], $member['pass'])) {
-    //DBのユーザー情報をセッションに保存
-    $_SESSION['id'] = $member['id'];
-    $_SESSION['name'] = $member['name'];
-    $msg = 'ログインしました。';
-    $link = '<a href="index.php">ホーム</a>';
-} else {
-    $msg = 'メールアドレスもしくはパスワードが間違っています。';
-    $link = '<a href="login.php">戻る</a>';
+session_start();
+
+if (!empty($_POST)) {
+  // なにか入力されていたら
+  $user_login = $db->prepare('SELECT * FROM users WHERE mail_address = ? AND password = ?');
+  // usersからデータを取ってくる
+  $user_login->execute(array(
+    $_POST['email'],
+    $_POST['password']
+  ));
+  // ポストされたものと一致するデータがあれば取得を実行
+  $user = $user_login->fetch();
+  // userって名前をつける
+
+  // adminからデータを取ってくる
+  $admin_login = $db->prepare('SELECT * FROM admin WHERE mail_address = ? AND password = ?');
+  $admin_login->execute(array(
+    $_POST['email'],
+    $_POST['password']
+  ));
+   // ポストされたものと一致するデータがあれば取得を実行
+  $admin = $admin_login->fetch();
+   // adminって名前をつける
+
+  if ($user) {
+    // もしIDとパスワードが一致していたら空の配列をSESSIONに格納
+    $_SESSION = array();
+    // SESSIONの中のuser_idカラムに上でusersテーブルから取ってきたデータのIDを与える
+    $_SESSION['user_id'] = $user['id'];
+    // SESSION中のtimeカラムに今の時間を入れる
+    $_SESSION['time'] = time();
+    $email = $_POST['email'];
+    $_SESSION['login']['email'] = $email;
+    $login=array();
+    if(isset($_SESSION['login'])){
+      $login = $_SESSION['login'];
+    }
+      header('Location: http://' . $_SERVER['HTTP_HOST'] . '/index.php');
+      // アクセスした瞬間にindex.phpに移動する
+      exit();
+  } elseif ($admin) {
+    // もしIDとパスワードが一致していたら空の配列をSESSIONに格納
+    $_SESSION = array();
+    // SESSIONの中のuser_idカラムに上でusersテーブルから取ってきたデータのIDを与える
+    $_SESSION['admin_id'] = $admin['id'];
+    // SESSION中のtimeカラムに今の時間を入れる
+    $_SESSION['time'] = time();
+    $email = $_POST['email'];
+    $_SESSION['login']['email'] = $email;
+    $login=array();
+    if(isset($_SESSION['login'])){
+      $login = $_SESSION['login'];
+    }
+      header('Location: http://' . $_SERVER['HTTP_HOST'] . '/admin/index.php');
+      // アクセスした瞬間にindex.phpに移動する
+      exit();
+  }
 }
+      
 ?>
 
 <h1><?php echo $msg; ?></h1>
@@ -54,13 +89,13 @@ if (password_verify($_POST['pass'], $member['pass'])) {
     <div class="w-full mx-auto py-10 px-5">
       <h2 class="text-md font-bold mb-5">ログイン</h2>
       <form action="index.php" method="POST">
-        <input type="email" placeholder="メールアドレス" class="w-full p-4 text-sm mb-3">
-        <input type="password" placeholder="パスワード" class="w-full p-4 text-sm mb-3">
+        <input name="email" type="email" placeholder="メールアドレス" class="w-full p-4 text-sm mb-3">
+        <input name="password" type="password" placeholder="パスワード" class="w-full p-4 text-sm mb-3">
         <label class="inline-block mb-6">
           <input type="checkbox" checked>
           <span class="text-sm">ログイン状態を保持する</span>
         </label>
-        <input type="submit" value="ログイン" class="cursor-pointer w-full p-3 text-md text-white bg-blue-400 rounded-3xl bg-gradient-to-r from-blue-600 to-blue-300">
+        <input name="login" type="submit" value="ログイン" class="cursor-pointer w-full p-3 text-md text-white bg-blue-400 rounded-3xl bg-gradient-to-r from-blue-600 to-blue-300">
       </form>
       <div class="text-center text-xs text-gray-400 mt-6">
         <a href="/">パスワードを忘れた方はこちら</a>
