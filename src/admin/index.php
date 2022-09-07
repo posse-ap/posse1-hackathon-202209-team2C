@@ -19,7 +19,7 @@ if (isset(
   // これらが入力されていたら
   $_POST['user_name'],
   $_POST['email'],
-  $_POST['password']
+  sha1($_POST['password'])
 )) {
    // ユーザ情報をDBに登録
     $stmt = $db->prepare(
@@ -38,7 +38,7 @@ if (isset(
   );
   $user_name = $_POST['user_name'];
   $email = $_POST['email'];
-  $password = $_POST['password'];
+  $password = sha1($_POST['password']);
   $param = array(
     ':user_name' => $user_name,
     ':email' => $email,

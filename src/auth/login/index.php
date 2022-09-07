@@ -9,7 +9,7 @@ if (!empty($_POST)) {
   // usersからデータを取ってくる
   $user_login->execute(array(
     $_POST['email'],
-    $_POST['password']
+    sha1($_POST['password'])
   ));
   // ポストされたものと一致するデータがあれば取得を実行
   $user = $user_login->fetch();
@@ -19,7 +19,7 @@ if (!empty($_POST)) {
   $admin_login = $db->prepare('SELECT * FROM admin WHERE mail_address = ? AND password = ?');
   $admin_login->execute(array(
     $_POST['email'],
-    $_POST['password']
+    sha1($_POST['password'])
   ));
    // ポストされたものと一致するデータがあれば取得を実行
   $admin = $admin_login->fetch();
