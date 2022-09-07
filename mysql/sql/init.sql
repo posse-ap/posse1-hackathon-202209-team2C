@@ -59,6 +59,7 @@ INSERT INTO events SET name='スペモク', start_at='2021/08/24 20:00', end_at=
 INSERT INTO events SET name='遊び', start_at='2021/09/22 18:00', end_at='2021/09/22 22:00';
 INSERT INTO events SET name='ハッカソン', start_at='2021/09/03 10:00', end_at='2021/09/03 22:00';
 INSERT INTO events SET name='遊び', start_at='2021/09/06 18:00', end_at='2021/09/06 22:00';
+INSERT INTO events SET name='遊び', start_at='2023/10/06 18:00', end_at='2023/10/06 22:00';
 
 INSERT INTO event_attendance SET event_id=1;
 INSERT INTO event_attendance SET event_id=1;

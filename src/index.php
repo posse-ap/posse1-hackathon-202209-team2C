@@ -2,7 +2,7 @@
 require('dbconnect.php');
 
 $today = date("Y-m-d H:i:s");
-$stmt = $db->query('SELECT events.id, events.name, events.start_at, events.end_at, count(event_attendance.id) AS total_participants FROM events LEFT JOIN event_attendance ON events.id = event_attendance.event_id WHERE DATE_FORMAT(start_at, "%Y-%m-%d") => DATE_FORMAT(now(), "%Y-%m-%d") GROUP BY events.id');
+$stmt = $db->query('SELECT events.id, events.name, events.start_at, events.end_at, count(event_attendance.id) AS total_participants FROM events LEFT JOIN event_attendance ON events.id = event_attendance.event_id WHERE DATE_FORMAT(start_at, "%Y-%m-%d") >= DATE_FORMAT(now(), "%Y-%m-%d") GROUP BY events.id');
 $events = $stmt->fetchAll();
 
 
@@ -13,6 +13,18 @@ function get_day_of_week ($w) {
 }
 
 print_r($events);
+
+// 配列を時間順に並び替える
+// array_column()の引数に、対象のキー名を指定し、開催日が近いもの順（過去→未来）でソート
+array_multisort( array_map( "strtotime", array_column( $events, "start_at" ) ), SORT_ASC, $events ) ;
+
+//以下で確認
+// foreach($events as $event){
+//   echo "<pre>";
+//   echo $event["name"];
+//   echo $event["start_at"];
+//   echo "</pre>";
+//  }
 ?>
 
 <!DOCTYPE html>
