@@ -48,7 +48,6 @@ if (isset(
   $stmt->execute($param);
 }
 
-
 // イベント登録
 if (isset(
   // これらが入力されていたら
@@ -63,6 +62,7 @@ $start_date = $start_date.":00";
 $finish_date = $_POST['finish_date'];
 $finish_date = str_replace(array("T"), " ", $finish_date); //Tを空白へ変更
 $finish_date = $finish_date.":00";
+
 // echo $start_date;
    // ユーザ情報をDBに登録
     $stmt = $db->prepare(
@@ -82,7 +82,8 @@ $finish_date = $finish_date.":00";
     )'
   );
   $event_name = $_POST['event_name'];
-  $contents = $_POST['contents'];
+  // 改行を維持させる
+  $contents = nl2br($_POST['contents']);
   $start_at = $start_date;
   $finish_at = $finish_date;
   $param = array(
@@ -94,7 +95,6 @@ $finish_date = $finish_date.":00";
   
   $stmt->execute($param);
 }
-
 
 
 ?>
@@ -138,6 +138,7 @@ $finish_date = $finish_date.":00";
       </form>
       <!-- 管理画面からイベント登録出来る -->
       <h1 class="text-md font-bold mb-5">イベント登録</h1>
+      <!-- onsubmit="return false;"→入力中はEnterキーで送信させない -->
       <form action="index.php" method="POST" class="w-full p-4 text-sm mb-3">
         <label for="eventName">イベント名</label><br>
         <input type="text" name="event_name" id="eventName" class="w-full p-4 text-sm mb-3" required>
@@ -146,10 +147,9 @@ $finish_date = $finish_date.":00";
         <label for="finish_date">終了日時</label><br>
         <input type="datetime-local" name="finish_date" id="finishDate" class="w-full p-4 text-sm mb-3" required>
         <label for="contents">イベント内容</label><br>
-        <input type="text" name="contents" id="contents" class="w-full p-4 text-sm mb-3">
+        <textarea name="contents" id="contents" class="w-full p-4 text-sm mb-3"></textarea>
         <button type="submit" name="btn_confirm" class="cursor-pointer w-full p-3 text-md text-white bg-blue-400 rounded-3xl bg-gradient-to-r from-blue-600 to-blue-300" style="display:hide">登録</button>
       </form>
-
     </div>
   </main>  
   
