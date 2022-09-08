@@ -14,12 +14,12 @@ if (isset($_SESSION['login']) && $_SESSION['time'] + 60 * 60 * 24 > time()) {
   exit();
 }
 
-
+// ユーザ登録
 if (isset(
   // これらが入力されていたら
   $_POST['user_name'],
   $_POST['email'],
-  sha1($_POST['password'])
+  $_POST['password']
 )) {
    // ユーザ情報をDBに登録
     $stmt = $db->prepare(
@@ -47,6 +47,49 @@ if (isset(
   
   $stmt->execute($param);
 }
+
+
+// イベント登録
+if (isset(
+  // これらが入力されていたら
+  $_POST['event_name'],
+  $_POST['start_date'],
+  $_POST['finish_date'],
+  $_POST['contents']
+)) {
+   // ユーザ情報をDBに登録
+    $stmt = $db->prepare(
+    'insert into events
+    (
+      name,
+      contents,
+      start_at,
+      end_at
+    )
+    values
+    (
+      :event_name,
+      :contents,
+      :start_at,
+      :end_at
+    )'
+  );
+  $event_name = $_POST['event_name'];
+  $contents = $_POST['contents'];
+  $start_at = $_POST['start_date'];
+  $finish_at = $_POST['finish_date'];
+  $param = array(
+    ':user_name' => $user_name,
+    ':contents' => $contents,
+    ':start_at' => $start_at,
+    ':finish_at' => $finish_at
+  );
+  
+  $stmt->execute($param);
+}
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -84,6 +127,19 @@ if (isset(
         <input type="email" name="email" id="email" class="w-full p-4 text-sm mb-3" required>
         <label for="paspasswordword">パスワード</label><br>
         <input type="password" name="password" id="password" class="w-full p-4 text-sm mb-3" required>
+        <button type="submit" name="btn_confirm" class="cursor-pointer w-full p-3 text-md text-white bg-blue-400 rounded-3xl bg-gradient-to-r from-blue-600 to-blue-300" style="display:hide">登録</button>
+      </form>
+      <!-- 管理画面からイベント登録出来る -->
+      <h1 class="text-md font-bold mb-5">イベント登録</h1>
+      <form action="index.php" method="POST" class="w-full p-4 text-sm mb-3">
+        <label for="eventName">イベント名</label><br>
+        <input type="text" name="event_name" id="eventName" class="w-full p-4 text-sm mb-3" required>
+        <label for="start_date">開始日時</label><br>
+        <input type="datetime-local" name="start_date" id="startDate" class="w-full p-4 text-sm mb-3" required>
+        <label for="finish_date">終了日時</label><br>
+        <input type="datetime-local" name="finish_date" id="finishDate" class="w-full p-4 text-sm mb-3" required>
+        <label for="contents">イベント内容</label><br>
+        <input type="contents" name="contents" id="contents" class="w-full p-4 text-sm mb-3" required>
         <button type="submit" name="btn_confirm" class="cursor-pointer w-full p-3 text-md text-white bg-blue-400 rounded-3xl bg-gradient-to-r from-blue-600 to-blue-300" style="display:hide">登録</button>
       </form>
 
