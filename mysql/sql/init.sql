@@ -89,7 +89,7 @@ INSERT INTO event_attendance
 INSERT INTO admin
   (admin_name, mail_address, password)
 VALUES 
-  ('小谷さん', 'kotani@gmail.com', 'kotani');
+  ('小谷さん', 'kotani@gmail.com', sha1('kotani'));
 
 INSERT INTO users
   (user_name, mail_address, password)
