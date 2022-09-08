@@ -12,7 +12,7 @@ if (isset($_GET['eventId'])) {
     $stmt->execute(array($eventId));
     $total_participants = $stmt->fetch();
 
-    //参加者の
+    //参加者の名前取得
     $sql = 'SELECT
               users.user_name AS all_participants
               from events 
@@ -26,12 +26,21 @@ if (isset($_GET['eventId'])) {
     $stmt = $db->prepare($sql);
     $stmt->execute(array($eventId));
     $all_participants = $stmt->fetchAll();
+    
+    //もし1人もいなかった場合、NULLを0に
+    $total_participants = $total_participants['total_participants'];
+    if ($total_participants == NULL) {
+      $total_participants = 0;
+    }
 
+    //入れ子構造を整理
     $all_name = [];
     foreach ($all_participants as $value) {
-      array_push($all_name, $value['all_participants'] . ", ");
+      array_push($all_name, $value['all_participants']);
       // echo $value['all_participants'];
     }
+
+      
     // echo "<pre>";
     // echo print_r($all_participants);//多重配列になってしまっている
     // echo print_r($all_name);
@@ -58,8 +67,8 @@ if (isset($_GET['eventId'])) {
       'day_of_week' => get_day_of_week(date("w", $start_date)),
       'start_at' => date("H:i", $start_date),
       'end_at' => date("H:i", $end_date),
-      'total_participants' => $total_participants['total_participants'],
-      'all_participants' => $all_name[0],
+      'total_participants' => $total_participants,
+      'all_participants' => $all_name,
       'message' => $eventMessage,
       'status' => $status,
       'deadline' => date("m月d日", strtotime('-3 day', $end_date)),

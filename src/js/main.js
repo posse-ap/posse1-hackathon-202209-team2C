@@ -27,6 +27,8 @@ async function openModal(eventId) {
     const res = await fetch(url)
     const event = await res.json()
     console.log(event);
+    console.log(event.all_participants);
+    console.log(eventId);
     let modalHTML = `
       <h2 class="text-md font-bold mb-3">${event.name}</h2>
       <p class="text-sm">${event.date}（${event.day_of_week}）</p>
