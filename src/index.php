@@ -164,11 +164,6 @@ array_multisort( array_map( "strtotime", array_column( $events, "start_at" ) ), 
                 <?php endif; ?>
               </div>
               <p class="text-sm"><span class="text-xl"><?php echo $total_participants[$index]['total_participants']; ?></span>人参加 ></p>
-              <input id="attendees" class="acd-check" type="checkbox">
-              <label class="acd-label text-sm" for="attendees"><span class="text-xl">${event.total_participants}</span>人参加 ></label>
-              <div class="acd-content">
-                  <p>${event.all_participants}</p>
-              </div>
             </div>
           </div>
         <?php endforeach; ?>
