@@ -54,7 +54,8 @@ $events = $stmt->fetchAll();
           <?php foreach ($events as $event) : ?>
             <form action="event_edit.php" method="post">
               <input type="submit" name="event_name" value="<?php echo $event['name']; ?>">
-              <input type="button" name="event_id" value="<?php echo $event['id']; ?>">
+              <input type="hidden" name="event_id" value="<?php echo $event['id']; ?>">
+              <input type="button" name="id" value="">
             </form>
             <?php endforeach; ?>
         </div>

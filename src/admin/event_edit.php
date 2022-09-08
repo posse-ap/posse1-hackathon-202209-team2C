@@ -10,7 +10,6 @@ if (isset($_SESSION['login']) && $_SESSION['time'] + 60 * 60 * 24 > time()) {
   header('Location: http://' . $_SERVER['HTTP_HOST'] . '/auth/login/index.php');
   exit();
 }
-echo $_POST['event_id'];
 
 ?>
 
@@ -57,7 +56,7 @@ echo $_POST['event_id'];
             <dt><input name='new_finish_at' type="datetime-local"></dt>
             <dd>イベント内容</dd>
             <dt><textarea name="new_contents" id="contents" class="w-full p-4 text-sm mb-3"></textarea></dt>
-            <input type="hidden" value="<?php echo $_POST['event_id'];?> ">
+            <input type="hidden" name = "id_event" value="<?php echo $_POST['event_id'];?> ">
             <input type="submit" name="edit" class="cursor-pointer w-full p-3 text-md text-white bg-blue-400 rounded-3xl bg-gradient-to-r from-blue-600 to-blue-300" style="display:hide" value ="情報を修正">
           </form>
           <a href='events_list.php'>イベント一覧に戻る</a>
