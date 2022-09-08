@@ -11,7 +11,24 @@ if (isset($_GET['eventId'])) {
     $stmt = $db->prepare('SELECT count(event_attendance.id) AS total_participants FROM events LEFT JOIN event_attendance ON events.id = event_attendance.event_id WHERE DATE_FORMAT(start_at, "%Y-%m-%d %H:%i:%s") >= DATE_FORMAT(now(), "%Y-%m-%d %H:%i:%s") and events.id = ? AND attendance = true GROUP BY events.id');
     $stmt->execute(array($eventId));
     $total_participants = $stmt->fetch();
-    
+
+    //参加者の
+    $sql = 'SELECT
+              users.user_name AS all_participants
+              from events 
+              left join event_attendance 
+              on events.id = event_attendance.event_id 
+              left join users 
+              on event_attendance.user_id = users.id 
+              WHERE DATE_FORMAT(start_at, "%Y-%m-%d %H:%i:%s") >= DATE_FORMAT(now(), "%Y-%m-%d %H:%i:%s") 
+                and events.id = ?
+                AND event_attendance.attendance = true; ';
+    $stmt->execute(array($eventId));
+    $all_participants = $stmt->fetchAll();
+    echo "<pre>";
+    echo print_r($all_participants);
+    echo "<pre>";
+
     $start_date = strtotime($event['start_at']);
     $end_date = strtotime($event['end_at']);
 
@@ -29,6 +46,7 @@ if (isset($_GET['eventId'])) {
       'start_at' => date("H:i", $start_date),
       'end_at' => date("H:i", $end_date),
       'total_participants' => $total_participants['total_participants'],
+      'all_participants' => $all_participants['all_participants'],
       'message' => $eventMessage,
       'status' => $status,
       'deadline' => date("m月d日", strtotime('-3 day', $end_date)),
