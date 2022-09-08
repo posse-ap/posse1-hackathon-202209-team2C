@@ -18,7 +18,6 @@ $stmt = $db->query('SELECT count(event_attendance.id) AS total_participants FROM
 $stmt->execute();
 $total_participants = $stmt->fetchAll();
 
-
 function get_day_of_week ($w) {
   $day_of_week_list = ['日', '月', '火', '水', '木', '金', '土'];
   return $day_of_week_list["$w"];
@@ -38,6 +37,20 @@ array_multisort( array_map( "strtotime", array_column( $events, "start_at" ) ), 
 
 
 
+// $user_id = $_SESSION['user_id'];
+// $stmt = $db->prepare('select events.name, DATE_FORMAT(start_at, "%Y/%m/%d"), users.user_name from events left join event_attendance on events.id = event_attendance.event_id left join users on event_attendance.user_id = users.id where DATE_FORMAT(start_at, "%Y-%m-%d %H:%i:%s") >= DATE_FORMAT(now(), "%Y-%m-%d %H:%i:%s") AND users.id = ? order by events.name DESC');
+// $stmt->execute(array(
+//   $user_id
+// ));
+
+// $join_events = $stmt->fetchAll();
+
+// 自分が参加するイベントでフィルタ
+// セッションで自分のuser_idを取得→
+// フィルター
+$res = array_filter($events, function($val) {
+    return $val === $user_id;
+});
 
 
 ?>
@@ -69,7 +82,7 @@ array_multisort( array_map( "strtotime", array_column( $events, "start_at" ) ), 
 
   <main class="bg-gray-100">
     <div class="w-full mx-auto p-5">
-      <!-- 
+      
       <div id="filter" class="mb-8">
         <h2 class="text-sm font-bold mb-3">フィルター</h2>
         <div class="flex">
@@ -79,7 +92,7 @@ array_multisort( array_map( "strtotime", array_column( $events, "start_at" ) ), 
           <a href="" class="px-3 py-2 text-md font-bold mr-2 rounded-md shadow-md bg-white">未回答</a>
         </div>
       </div>
-      -->
+  
       <div id="events-list">
         <div class="flex justify-between items-center mb-3">
           <h2 class="text-sm font-bold">一覧</h2>
