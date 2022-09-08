@@ -71,16 +71,14 @@ $finish_date = $finish_date.":00";
       name,
       contents,
       start_at,
-      end_at,
-      deleted_at
+      end_at
     )
     values
     (
       :event_name,
       :contents,
       :start_at,
-      :end_at,
-      null
+      :end_at
     )'
   );
   $event_name = $_POST['event_name'];
@@ -88,7 +86,7 @@ $finish_date = $finish_date.":00";
   $start_at = $start_date;
   $finish_at = $finish_date;
   $param = array(
-    ':user_name' => $user_name,
+    ':event_name' => $event_name,
     ':contents' => $contents,
     ':start_at' => $start_at,
     ':end_at' => $finish_at
