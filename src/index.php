@@ -50,6 +50,7 @@ array_multisort( array_map( "strtotime", array_column( $events, "start_at" ) ), 
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
   <title>Schedule | POSSE</title>
 </head>
 

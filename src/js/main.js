@@ -51,8 +51,8 @@ async function openModal(eventId) {
             -->
           </div>
           <div class="flex mt-5">
-            <button class="flex-1 bg-blue-500 py-2 mx-3 rounded-3xl text-white text-lg font-bold" onclick="participateEvent(${eventId})">参加する</button>
-            <button class="flex-1 bg-gray-300 py-2 mx-3 rounded-3xl text-white text-lg font-bold" onclick="notParticipateEvent(${eventId})">参加しない</button>
+            <button id="join${eventId}" class="flex-1 bg-blue-500 py-2 mx-3 rounded-3xl text-white text-lg font-bold" onclick="participateEvent(${eventId})">参加する</button>
+            <button id="notJoin${eventId}" class="flex-1 bg-gray-300 py-2 mx-3 rounded-3xl text-white text-lg font-bold" onclick="notParticipateEvent(${eventId})">参加しない</button>
           </div>
         `
         break;
@@ -89,6 +89,11 @@ function toggleModal() {
   body.classList.toggle('modal-active')
 }
 
+// let join = document.getElementById(`join${eventId}`);
+var join = document.getElementById('join18');
+console.log(join);
+// →nullになっちゃう、、、、
+
 async function participateEvent(eventId) {
   try {
     let formData = new FormData();
@@ -106,6 +111,12 @@ async function participateEvent(eventId) {
     })
     closeModal()
     location.reload()
+    // join.disabled = true;
+    // let notJoin = document.getElementById(`notJoin${eventId}`);
+    // notJoin.disabled = false;
+    // join.classList.add('active');
+    join.classList.toggle('pointer-events-none')
+
   } catch (error) {
     console.log(error)
   }
@@ -113,6 +124,10 @@ async function participateEvent(eventId) {
 
 async function notParticipateEvent(eventId) {
   try {
+    // let join = document.getElementById(`join${eventId}`);
+    // join.disabled = false;
+    // let notJoin = document.getElementById(`notJoin${eventId}`);
+    // notJoin.disabled = true;
     let formData = new FormData();
     formData.append('eventId', eventId);
     formData.append('attendance', 0);
@@ -128,6 +143,10 @@ async function notParticipateEvent(eventId) {
     })
     closeModal()
     location.reload()
+    let join = document.getElementById(`join${eventId}`);
+    join.disabled = false;
+    let notJoin = document.getElementById(`notJoin${eventId}`);
+    notJoin.disabled = true;
   } catch (error) {
     console.log(error)
   }
