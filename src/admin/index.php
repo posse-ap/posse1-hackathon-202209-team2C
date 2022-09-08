@@ -125,6 +125,8 @@ $finish_date = $finish_date.":00";
 
   <main class="bg-gray-100  h-screen">
     <div class="w-full mx-auto py-10 px-5">
+      <a href="events_list.php">登録済みイベント一覧</a>
+
       <!-- 管理画面からユーザ登録出来る -->
       <h1 class="text-md font-bold mb-5">ユーザ登録</h1>
       <form action="index.php" method="POST" class="w-full p-4 text-sm mb-3">
@@ -153,6 +155,5 @@ $finish_date = $finish_date.":00";
     </div>
   </main>  
   
-  <script src="/js/main.js"></script>
 </body>
 </html>
