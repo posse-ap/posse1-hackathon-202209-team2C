@@ -40,11 +40,10 @@ async function openModal(eventId) {
 
       <hr class="my-4">
 
-      <p class="text-sm"><span class="text-xl">${event.total_participants}</span>人参加 ></p>
       <input id="attendees" class="acd-check" type="checkbox">
       <label class="acd-label text-sm" for="attendees"><span class="text-xl">${event.total_participants}</span>人参加 ></label>
       <div class="acd-content">
-          <p>hello.world!</p>
+          <p>${event.all_participants}</p>
       </div>
     `
     switch (0) {

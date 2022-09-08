@@ -23,11 +23,24 @@ if (isset($_GET['eventId'])) {
               WHERE DATE_FORMAT(start_at, "%Y-%m-%d %H:%i:%s") >= DATE_FORMAT(now(), "%Y-%m-%d %H:%i:%s") 
                 and events.id = ?
                 AND event_attendance.attendance = true; ';
+    $stmt = $db->prepare($sql);
     $stmt->execute(array($eventId));
     $all_participants = $stmt->fetchAll();
-    echo "<pre>";
-    echo print_r($all_participants);
-    echo "<pre>";
+
+    $all_name = [];
+    foreach ($all_participants as $value) {
+      array_push($all_name, $value['all_participants'] . ", ");
+      // echo $value['all_participants'];
+    }
+    // echo "<pre>";
+    // echo print_r($all_participants);//多重配列になってしまっている
+    // echo print_r($all_name);
+    // echo print_r($all_name[0]);
+    // echo print_r($total_participants);
+    // echo "</pre>";
+    
+      // 'all_participants' => $all_name,
+    
 
     $start_date = strtotime($event['start_at']);
     $end_date = strtotime($event['end_at']);
@@ -46,7 +59,7 @@ if (isset($_GET['eventId'])) {
       'start_at' => date("H:i", $start_date),
       'end_at' => date("H:i", $end_date),
       'total_participants' => $total_participants['total_participants'],
-      'all_participants' => $all_participants['all_participants'],
+      'all_participants' => $all_name[0],
       'message' => $eventMessage,
       'status' => $status,
       'deadline' => date("m月d日", strtotime('-3 day', $end_date)),

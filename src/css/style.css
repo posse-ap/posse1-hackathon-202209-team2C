@@ -7,9 +7,10 @@
   /* padding: 10px; */
 }
 .acd-content{
-  border: 1px solid #333;
-  height: 0;
-  opacity: 0;
+  /* border: 1px solid #333; */
+  background-color: rgb(230, 229, 229);
+  /* height: 0;
+  opacity: 0; */
   padding: 0 10px;
   transition: .5s;
   visibility: hidden;

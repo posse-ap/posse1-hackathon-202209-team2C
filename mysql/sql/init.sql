@@ -78,6 +78,7 @@ INSERT INTO event_attendance
   VALUES
   (17, 1, true),
   (17, 2, false),
+  (19, 2, true),
   (19, 3, true),
   (20, 2, false),
   (21, 1, true),
