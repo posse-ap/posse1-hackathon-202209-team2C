@@ -57,6 +57,13 @@ if (isset(
   $_POST['finish_date'],
   $_POST['contents']
 )) {
+$start_date = $_POST['start_date'];
+$start_date = str_replace(array("T"), " ", $start_date); //Tを空白へ変更
+$start_date = $start_date.":00";
+$finish_date = $_POST['finish_date'];
+$finish_date = str_replace(array("T"), " ", $finish_date); //Tを空白へ変更
+$finish_date = $finish_date.":00";
+// echo $start_date;
    // ユーザ情報をDBに登録
     $stmt = $db->prepare(
     'insert into events
@@ -64,25 +71,27 @@ if (isset(
       name,
       contents,
       start_at,
-      end_at
+      end_at,
+      deleted_at
     )
     values
     (
       :event_name,
       :contents,
       :start_at,
-      :end_at
+      :end_at,
+      null
     )'
   );
   $event_name = $_POST['event_name'];
   $contents = $_POST['contents'];
-  $start_at = $_POST['start_date'];
-  $finish_at = $_POST['finish_date'];
+  $start_at = $start_date;
+  $finish_at = $finish_date;
   $param = array(
     ':user_name' => $user_name,
     ':contents' => $contents,
     ':start_at' => $start_at,
-    ':finish_at' => $finish_at
+    ':end_at' => $finish_at
   );
   
   $stmt->execute($param);
@@ -139,7 +148,7 @@ if (isset(
         <label for="finish_date">終了日時</label><br>
         <input type="datetime-local" name="finish_date" id="finishDate" class="w-full p-4 text-sm mb-3" required>
         <label for="contents">イベント内容</label><br>
-        <input type="contents" name="contents" id="contents" class="w-full p-4 text-sm mb-3" required>
+        <input type="text" name="contents" id="contents" class="w-full p-4 text-sm mb-3">
         <button type="submit" name="btn_confirm" class="cursor-pointer w-full p-3 text-md text-white bg-blue-400 rounded-3xl bg-gradient-to-r from-blue-600 to-blue-300" style="display:hide">登録</button>
       </form>
 
