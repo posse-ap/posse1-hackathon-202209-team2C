@@ -12,8 +12,8 @@ if (isset($_SESSION['login']) && $_SESSION['time'] + 60 * 60 * 24 > time()) {
 }
 
 
-$stmt = $db->prepare('SELECT count(event_attendance.id) AS total_participants FROM events LEFT JOIN event_attendance ON events.id = event_attendance.event_id WHERE DATE_FORMAT(start_at, "%Y-%m-%d %H:%i:%s") >= DATE_FORMAT(now(), "%Y-%m-%d %H:%i:%s") and events.id = ? AND attendance = true GROUP BY events.id');
-$stmt = $db->query('SELECT count(event_attendance.id) AS total_participants FROM events LEFT JOIN event_attendance ON events.id = event_attendance.event_id WHERE DATE_FORMAT(start_at, "%Y-%m-%d %H:%i:%s") >= DATE_FORMAT(now(), "%Y-%m-%d %H:%i:%s") and attendance = true GROUP BY events.id');
+// $stmt = $db->prepare('SELECT count(event_attendance.id) AS total_participants FROM events LEFT JOIN event_attendance ON events.id = event_attendance.event_id WHERE DATE_FORMAT(start_at, "%Y-%m-%d %H:%i:%s") >= DATE_FORMAT(now(), "%Y-%m-%d %H:%i:%s") and events.id = ? AND attendance = true GROUP BY events.id');
+$stmt = $db->query('SELECT events.id, count(event_attendance.id) AS total_participants FROM events LEFT JOIN event_attendance ON events.id = event_attendance.event_id WHERE DATE_FORMAT(start_at, "%Y-%m-%d %H:%i:%s") >= DATE_FORMAT(now(), "%Y-%m-%d %H:%i:%s") GROUP BY events.id');
 $stmt->execute();
 $total_participants = $stmt->fetchAll();
 
@@ -21,11 +21,6 @@ function get_day_of_week ($w) {
   $day_of_week_list = ['日', '月', '火', '水', '木', '金', '土'];
   return $day_of_week_list["$w"];
 }
-
-
-
-
-
 
 
 // if(isset($_POST['all'])) {
@@ -36,6 +31,24 @@ function get_day_of_week ($w) {
 //   $stmt = $db->query('SELECT events.id, events.name, events.start_at, events.end_at, count(event_attendance.id) AS total_participants FROM events LEFT JOIN event_attendance ON events.id = event_attendance.event_id WHERE DATE_FORMAT(start_at, "%Y-%m-%d %H:%i:%s") >= DATE_FORMAT(now(), "%Y-%m-%d %H:%i:%s") GROUP BY events.id');
 
 // }
+
+foreach ($events as $index => $event) {
+  $count_people = [];
+  for ($m=0; $m < count($events); $m++) { 
+    if ($total_participants[$m]["id"] === $event['id']) {
+      array_push($count_people, $total_participants[$m]["total_participants"]);
+    }else{
+      array_push($count_people, 0);
+    }
+  }
+}
+
+// echo "<pre>";
+// print_r($total_participants);
+// print_r($events);
+// print_r($total_participants[0]["id"]);
+// print_r($count_people);
+// echo "</pre>";
 
 
 
@@ -151,6 +164,11 @@ array_multisort( array_map( "strtotime", array_column( $events, "start_at" ) ), 
                 <?php endif; ?>
               </div>
               <p class="text-sm"><span class="text-xl"><?php echo $total_participants[$index]['total_participants']; ?></span>人参加 ></p>
+              <input id="attendees" class="acd-check" type="checkbox">
+              <label class="acd-label text-sm" for="attendees"><span class="text-xl">${event.total_participants}</span>人参加 ></label>
+              <div class="acd-content">
+                  <p>${event.all_participants}</p>
+              </div>
             </div>
           </div>
         <?php endforeach; ?>
