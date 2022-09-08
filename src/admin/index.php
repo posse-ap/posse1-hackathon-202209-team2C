@@ -19,7 +19,7 @@ if (isset(
   // これらが入力されていたら
   $_POST['user_name'],
   $_POST['email'],
-  sha1($_POST['password'])
+  $_POST['password']
 )) {
    // ユーザ情報をDBに登録
     $stmt = $db->prepare(
