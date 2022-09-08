@@ -26,6 +26,9 @@ async function openModal(eventId) {
     const url = '/api/getModalInfo.php?eventId=' + eventId
     const res = await fetch(url)
     const event = await res.json()
+    console.log(event);
+    console.log(event.all_participants);
+    console.log(eventId);
     let modalHTML = `
       <h2 class="text-md font-bold mb-3">${event.name}</h2>
       <p class="text-sm">${event.date}（${event.day_of_week}）</p>
@@ -39,7 +42,11 @@ async function openModal(eventId) {
 
       <hr class="my-4">
 
-      <p class="text-sm"><span class="text-xl">${event.total_participants}</span>人参加 ></p>
+      <input id="attendees" class="acd-check" type="checkbox">
+      <label class="acd-label text-sm" for="attendees"><span class="text-xl">${event.total_participants}</span>人参加 ></label>
+      <div class="acd-content">
+          <p>${event.all_participants}</p>
+      </div>
     `
     switch (0) {
       case 0:

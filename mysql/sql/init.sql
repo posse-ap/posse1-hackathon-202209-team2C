@@ -64,7 +64,7 @@ INSERT INTO events SET name='遊び', contents='リアイベ！遊びます。',
 INSERT INTO events SET name='遊び', contents='リアイベ！遊びます。', start_at='2021/10/06 18:00', end_at='2021/10/06 22:00';
 INSERT INTO events SET name='遊び', contents='リアイベ！遊びます。', start_at='2022/09/09 09:00', end_at='2022/09/09 22:00';
 INSERT INTO events SET name='縦モク', contents='先輩ともくもくします。', start_at='2022/09/10 09:00', end_at='2022/09/10 22:00';
-INSERT INTO events SET name='縦モク', contents='先輩ともくもくします。', start_at='2022/09/10 09:00', end_at='2022/09/10 22:00';
+INSERT INTO events SET name='横モク', contents='同期ともくもくします。', start_at='2022/09/10 09:00', end_at='2022/09/10 23:00';
 INSERT INTO events SET name='縦モク', contents='先輩ともくもくします。', start_at='2022/09/11 09:00', end_at='2022/09/11 22:00';
 INSERT INTO events SET name='縦モク', contents='先輩ともくもくします。', start_at='2022/09/12 09:00', end_at='2022/09/12 22:00';
 INSERT INTO events SET name='縦モク', contents='先輩ともくもくします。', start_at='2022/10/10 09:00', end_at='2022/10/10 22:00';
@@ -78,6 +78,7 @@ INSERT INTO event_attendance
   VALUES
   (17, 1, true),
   (17, 2, false),
+  (19, 2, true),
   (19, 3, true),
   (20, 2, false),
   (21, 1, true),
